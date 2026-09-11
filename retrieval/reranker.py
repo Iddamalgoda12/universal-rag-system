@@ -6,7 +6,6 @@ MODEL_PATH = BASE_DIR / "AI_MODELS" / "rerankers"
 
 _reranker = None
 
-
 def get_reranker() -> CrossEncoder:
     global _reranker
 
