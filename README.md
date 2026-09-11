@@ -94,7 +94,13 @@ Place PDF files inside:
 data/pdfs/
 ```
 
-### 3. Run ingestion
+### 3. Start the vector database
+
+Start the vector database before running ingestion or retrieval.
+
+The current implementation uses Qdrant. Make sure Qdrant is running and accessible before continuing.
+
+### 4. Run ingestion
 
 ```bash
 python run_ingestion.py
@@ -104,9 +110,7 @@ This loads the PDFs, creates chunks, generates embeddings, and stores them in th
 
 The system also shows the number of chunks created for each PDF.
 
-### 4. Run retrieval
-
-Then run:
+### 5. Run retrieval
 
 ```bash
 python run_retrieval.py
