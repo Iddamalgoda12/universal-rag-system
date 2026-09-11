@@ -18,5 +18,10 @@ qdrant/.qdrant-initialized
 Models/*
 !Models/.gitkeep
 
+Models/embedding models/*
+!Models/embedding models/.gitkeep
+Models/rerankers/*
+!Models/rerankers/.gitkeep
+
 AI_MODELS/*
 !AI_MODELS/.gitkeep

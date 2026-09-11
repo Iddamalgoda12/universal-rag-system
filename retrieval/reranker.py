@@ -1,9 +1,8 @@
 from pathlib import Path
 from sentence_transformers import CrossEncoder
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parents[1]
 MODEL_PATH = BASE_DIR / "AI_MODELS" / "rerankers"
-FALLBACK_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
 _reranker = None
 
@@ -12,9 +11,14 @@ def get_reranker() -> CrossEncoder:
     global _reranker
 
     if _reranker is None:
-        model_name = str(MODEL_PATH) if MODEL_PATH.exists() else FALLBACK_MODEL
+        if not MODEL_PATH.exists():
+            raise FileNotFoundError(
+                f"Local reranker model not found at {MODEL_PATH}. "
+                "Place the model files in AI_MODELS/rerankers before using reranking."
+            )
+
         _reranker = CrossEncoder(
-            model_name,
+            str(MODEL_PATH),
             trust_remote_code=True,
             device="cpu",
         )
