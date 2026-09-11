@@ -6,6 +6,7 @@ from qdrant_client.models import PointStruct
 from langchain_core.documents import Document
 from ingestion.chunker import chunk_documents
 from ingestion.embeddings import embed_texts
+from ingestion.loader import load_all_documents
 from qdrant_db import create_collection, upload_points
 
 import chainlit as cl
@@ -65,14 +66,23 @@ async def ingest_document(file_path: str, documents: list[Document]) -> int:
 
 
 async def ingest_all_documents(
-    documents_by_path: dict[Path, list[Document]],
+    documents_by_path: dict[Path, list[Document]] | None = None,
+    pdf_dir: Path = PDF_DIR,
 ) -> tuple[int, dict[Path, int]]:
-    """Ingest all loaded documents and return total/per-file chunk counts."""
+    """Load and ingest all PDFs in ``pdf_dir``.
+
+    ``documents_by_path`` also remains supported for callers that have already
+    loaded documents.
+    """
+
+    if documents_by_path is None:
+        pdf_paths = sorted(pdf_dir.glob("*.pdf"))
+        documents_by_path = load_all_documents(pdf_paths)
 
     create_collection()
 
     if not documents_by_path:
-        print(f"No PDF files found in {PDF_DIR}")
+        print(f"No PDF files found in {pdf_dir}")
         return 0, {}
 
     total_chunks = 0

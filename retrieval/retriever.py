@@ -7,8 +7,8 @@ from retrieval.reranker import rerank
 
 def _get_relevant_documents(
     query: str,
-    retrieve_limit: int = 4,
-    rerank_limit: int = 2,
+    retrieve_limit: int = 5,
+    rerank_limit: int = 3,
     use_reranker: bool = True,
 ) -> List[Document]:
     points = retrieve(query=query, limit=retrieve_limit)
@@ -58,8 +58,8 @@ def _get_relevant_documents(
 
 def get_relevant_documents(
     query: str,
-    retrieve_limit: int = 4,
-    rerank_limit: int = 2,
+    retrieve_limit: int = 5,
+    rerank_limit: int = 3,
     use_reranker: bool = True,
 ) -> List[Document]:
     return _get_relevant_documents(
